@@ -5,6 +5,9 @@ name = "pypi"
 
 [packages]
 langchain = "*"
+beautifulsoup4 = "*"
+lxml = "*"
+chromadb = "*"
 
 [dev-packages]
 
