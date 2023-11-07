@@ -1,5 +1,7 @@
 from langchain.document_loaders.html_bs import BSHTMLLoader
 from langchain.docstore.document import Document
+from bs4 import NavigableString
+from bs4.element import Tag
 from typing import Dict, List, Union
 
 
@@ -7,7 +9,7 @@ def path_to_uri(path, scheme="https://", domain="docs.ray.io"):
     return scheme + domain + str(path).split(domain)[-1]
 
 
-def SectionBSHTMLLoader(BSHTMLLoader):
+class SectionBSHTMLLoader(BSHTMLLoader):
     """Load `HTML` files and parse them with `beautiful soup`, extract their sections only."""
 
     def __init__(
@@ -23,6 +25,18 @@ def SectionBSHTMLLoader(BSHTMLLoader):
             bs_kwargs,
             get_text_separator,
         )
+
+    def extract_text_from_section(self, section: Tag):
+        texts = []
+        for elem in section.children:
+            if isinstance(elem, NavigableString):
+                if elem.strip():
+                    texts.append(elem.strip())
+            elif elem.name == "section":
+                continue
+            else:
+                texts.append(elem.get_text().strip())
+        return "\n".join(texts)
 
     def load(self) -> List[Document]:
         from bs4 import BeautifulSoup
@@ -40,7 +54,7 @@ def SectionBSHTMLLoader(BSHTMLLoader):
         section_list = []
         for section in sections:
             section_id = section.get("id")
-            section_text = ""
+            section_text = self.extract_text_from_section(section)
             if section_id:
                 uri = path_to_uri(path=self.file_path)
                 section_list.append(
