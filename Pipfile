@@ -10,6 +10,8 @@ lxml = "*"
 chromadb = "*"
 
 [dev-packages]
+numpy = "*"
+matplotlib = "*"
 
 [requires]
 python_version = "3.11"
