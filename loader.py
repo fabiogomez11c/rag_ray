@@ -40,4 +40,5 @@ new_lengths = [len(doc.page_content) for doc in documents]
 # plt.xlabel("Section Number")
 # plt.show()
 
-print("Done")
+from langchain.embeddings import OpenAIEmbeddings
+from langchain.embeddings.huggingface import HuggingFaceEmbedding
