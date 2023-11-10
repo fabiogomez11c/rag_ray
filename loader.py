@@ -48,11 +48,11 @@ class EmbedChunk:
     def __init__(self, model_name):
         self.embedding_model = HuggingFaceEmbeddings(
             model_name=model_name,
-            model_kwargs={"device": "cpu"},
-            encode_kwargs={
-                "device": "cpu",
-                "batch_size": 8,
-            },
+            # model_kwargs={"device": "cpu"},
+            # encode_kwargs={
+            #     "device": "cpu",
+            #     "batch_size": 8,
+            # },
         )
 
     def __call__(self, batch):
@@ -64,8 +64,14 @@ class EmbedChunk:
         }
 
 
-embedder = EmbedChunk("distilbert-base-uncased")
+embedder = EmbedChunk("all-MiniLM-L6-v2")
 result = embedder(documents[0])
 
+from langchain.vectorstores.chroma import Chroma
+
+db = Chroma.from_documents(documents, embedding=embedder.embedding_model)
+
+query = "How to use ray?"
+docs = db.similarity_search(query, k=5)
 
 print("Done")
