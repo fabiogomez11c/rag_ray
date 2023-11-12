@@ -21,7 +21,7 @@ class Loader:
             separators=["\n\n", "\n", " ", ""], chunk_size=300, chunk_overlap=100
         )
 
-        # documents = text_splitter.split_documents(html_documents)
+        self.documents = self.text_splitter.split_documents(self.html_documents)
         # embedder = EmbedChunk("distilbert-base-uncased")
 
         # db = Chroma.from_documents(documents, embedding=embedder.embedding_model)
