@@ -1,12 +1,9 @@
 from langchain.text_splitter import (
     RecursiveCharacterTextSplitter,
 )
-from langchain.vectorstores.chroma import Chroma
 from utils import SectionBSHTMLLoader
 from functools import reduce
 from pathlib import Path
-from langchain.embeddings.huggingface import HuggingFaceEmbeddings
-from langchain.vectorstores.chroma import Chroma
 
 
 class Loader:
