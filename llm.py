@@ -17,7 +17,7 @@ class LLM:
             [("system", base_template), ("human", base_human_template)]
         )
         chain = LLMChain(prompt=chat_prompt, llm=chat_model)
-        result = chain.run()
+        result = chain.run({"request": user_request, "context": generated_context})
         return result
 
 
