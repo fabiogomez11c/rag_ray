@@ -10,7 +10,7 @@ warnings.filterwarnings("ignore")
 class LLM:
     """LLM object designed for our endpoint"""
 
-    def generate_code(self, user_request: str, generated_context: str) -> str:
+    def get_response(self, user_request: str, generated_context: str = "") -> str:
         """Generate the desired code based on the user input"""
         chat_model = ChatOpenAI()
         chat_prompt = ChatPromptTemplate.from_messages(
@@ -24,7 +24,6 @@ class LLM:
 if __name__ == "__main__":
     llm = LLM()
     res = llm.generate_code(
-        user_html="<button>Click me!</button>",
-        user_request="I want this button to have light colors and a hover effect, make it whole circle button, away from the standards even if you need to make it bigger to be a circle.",
+        user_request="How to install ray in python?", generated_context=""
     )
     print(res)
