@@ -1,5 +1,6 @@
 from loader import Loader
 from embedder import EmbedChunk
+from llm import LLM
 from langchain.vectorstores.chroma import Chroma
 import chromadb
 
@@ -25,8 +26,10 @@ def main():
 
     # TODO esto hay que cambiarlo para que sea un LLM de langchain
     # TODO como funciona la memoria cuando estoy haciendo RAG?
-    # query = "How to install ray in python?"
-    # sim_docs = db.similarity_search(query, k=5)
+    llm = LLM()
+    query = "How to install ray in python?"
+    sim_docs = db.similarity_search(query, k=5)
+    response = llm.get_response(user_request=query)
 
     # for doc in sim_docs:
     #     # TODO pienso que el context length es bien importante, muchas veces esto solo trae algunos pedazos de codigo,
