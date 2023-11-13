@@ -1,4 +1,5 @@
 from langchain.embeddings.huggingface import HuggingFaceEmbeddings
+from typing import Dict
 
 
 class EmbedChunk:
@@ -12,7 +13,7 @@ class EmbedChunk:
             # },
         )
 
-    def __call__(self, batch):
+    def __call__(self, batch) -> Dict:
         embeddings = self.embedding_model.embed_documents([batch.page_content])
         return {
             "text": batch.page_content,
