@@ -1,24 +1,42 @@
 from loader import Loader
 from embedder import EmbedChunk
 from langchain.vectorstores.chroma import Chroma
+import chromadb
 
 
 def main():
-    loader = Loader()
     embedder = EmbedChunk("distilbert-base-uncased")
-    db = Chroma.from_documents(
-        documents=loader.documents,
-        embedding=embedder.embedding_model,
-        persist_directory="./db/",
-    )
+    db = chromadb.PersistentClient("./db/")
 
-    query = "How to install ray in python?"
-    sim_docs = db.similarity_search(query, k=5)
+    # check if collection exists
+    if "langchain" in db.list_collections():
+        db_langchain = Chroma(
+            client=db,
+            collection_name="langchain",
+            embedding_function=embedder.embedding_model,
+        )
+    else:
+        loader = Loader()
+        db_langchain = Chroma.from_documents(
+            documents=loader.documents,
+            embedding=embedder.embedding_model,
+            persis_directory="./db/",
+        )
 
-    for doc in sim_docs:
-        print(doc.page_content)
-        print(doc.metadata["source"])
-        print("----------------------------")
+    # TODO esto hay que cambiarlo para que sea un LLM de langchain
+    # TODO como funciona la memoria cuando estoy haciendo RAG?
+    # query = "How to install ray in python?"
+    # sim_docs = db.similarity_search(query, k=5)
+
+    # for doc in sim_docs:
+    #     # TODO pienso que el context length es bien importante, muchas veces esto solo trae algunos pedazos de codigo,
+    #     # es muy dificil deducir la mejor respuesta con esos chunks tan malos
+    #     print(doc.page_content)
+    #     print(doc.metadata["source"])
+    #     print("----------------------------")
+
+    # TODO luego de implementar un LLM de langchain y hacer varias pruebas, se debe pasar al evaluador del RAG
+    # la idea es que los embeddings sean gestionados por un LLM de huggingface pero la respuesta se de con OpenAI
 
 
 if __name__ == "__main__":
