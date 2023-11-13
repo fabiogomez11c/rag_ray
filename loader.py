@@ -22,9 +22,3 @@ class Loader:
         )
 
         self.documents = self.text_splitter.split_documents(self.html_documents)
-        # embedder = EmbedChunk("distilbert-base-uncased")
-
-        # db = Chroma.from_documents(documents, embedding=embedder.embedding_model)
-
-        # query = "How to use ray?"
-        # docs = db.similarity_search(query, k=5)
