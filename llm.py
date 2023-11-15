@@ -12,7 +12,7 @@ class LLM:
 
     def get_response(self, user_request: str, generated_context: str = "") -> str:
         """Generate the desired code based on the user input"""
-        chat_model = ChatOpenAI()
+        chat_model = ChatOpenAI(temperature=0)
         chat_prompt = ChatPromptTemplate.from_messages(
             [("system", base_template), ("human", base_human_template)]
         )
