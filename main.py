@@ -6,7 +6,7 @@ import chromadb
 
 
 def main():
-    embedder = EmbedChunk("distilbert-base-uncased")
+    embedder = EmbedChunk("text-embedding-ada-002")
     db = chromadb.PersistentClient("./db/")
 
     # check if collection exists
@@ -22,12 +22,12 @@ def main():
         db_langchain = Chroma.from_documents(
             documents=loader.documents,
             embedding=embedder.embedding_model,
-            persis_directory="./db/",
+            persist_directory="./db2/",
         )
 
     # TODO como funciona la memoria cuando estoy haciendo RAG?
     llm = LLM()
-    query = "How to install ray in python?"
+    query = "Which operating systems does Ray support?"
     sim_docs = db_langchain.similarity_search(query, k=5)
     generated_context = [doc.page_content for doc in sim_docs]
     generated_context = "\n".join(generated_context)
