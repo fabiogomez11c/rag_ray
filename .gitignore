@@ -1,6 +1,7 @@
 __pycache__/
 .vscode/
 docs.ray.io/
+.DS_Store
 db/
 db2/
 chroma.log
